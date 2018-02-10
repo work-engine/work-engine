@@ -86,6 +86,7 @@ class AmazonProductsFinder {
         cb(products);
       })
       .catch(error => console.error('Error:', error));
+
   }
 
   createProductUrls(products) {

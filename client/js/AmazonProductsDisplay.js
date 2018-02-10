@@ -6,7 +6,6 @@ class AmazonProductsDisplay {
     }
   
     init() {
-        
         this.createProductsDisplay();
         this.initProductsDisplayEvents();
         this.productFormInsertRowHtml(productsArray);
@@ -32,7 +31,7 @@ class AmazonProductsDisplay {
             this.amazonProductsController.editProducts();
         });
       }
-
+  
       productFormInsertRowHtml(){
         let str = `
         <div class="productsFormRow columns">
