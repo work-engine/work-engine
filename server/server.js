@@ -1,12 +1,11 @@
 // Handle middleware
 const express = require('express');
-// start an instance of the express server
-const app = express();
 // Parse req.body
 const bodyParser = require('body-parser');
 // Use path.join
 const path = require('path');
-
+// Create middleware
+const app = express();
 // Import api router
 const apiRouter = require('./routers/apiRouter')
 // Import mongoose
@@ -34,8 +33,10 @@ mongoose.connect(mongoURI);
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
-// define a route for static files
-app.use(express.static(__dirname + '/../client/'));
+// Send index.html to a request for the homepage
+app.get('/',
+  (req, res) => res.sendFile(path.join(__dirname, '..', './index.html'))
+);
 
 app.get('/amazon/', 
   amazonController.getProductsHtml,

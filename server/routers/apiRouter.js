@@ -6,9 +6,13 @@ const router = express.Router();
 const dbController = require('../controllers/dbController');
 const amazonController = require('../controllers/amazonController');
 
-// ROUTES
+router.post('/receive',
+  dbController.save,
+  (req, res) => res.status(200).send(res.locals.products)
+)
 
-router.post('/api/go', 
+// Handles POST requests with user input information
+router.post('/go', 
   amazonController.getProductsHtmlLocal,
   dbController.save,
   (req, res) => {

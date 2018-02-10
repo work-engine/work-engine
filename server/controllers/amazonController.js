@@ -25,7 +25,7 @@ amazonController.getProductsHtml = (req, res, next) => {
             product.manufacturer = $('result_' + i + ' .a-size-small.a-color-secondary').text();
             product.price = $('#result_' + i + ' .sx-price-whole').text();
             product.stars = $('#result_' + i + ' .a-icon-alt').last().text();
-            product.startsCount = $('#result_' + i + ' .a-size-small.a-link-normal.a-text-normal').text();
+            product.starsCount = $('#result_' + i + ' .a-size-small.a-link-normal.a-text-normal').text();
             products.push(product);
 
             console.log('result_' + i + ': product.name: ' + product.name);
@@ -33,7 +33,7 @@ amazonController.getProductsHtml = (req, res, next) => {
             console.log('result_' + i + ': product.manufacturer: ' + product.manufacturer);
             console.log('result_' + i + ': product.price: ' + product.price);
             console.log('result_' + i + ': product.stars: ' + product.stars);
-            console.log('result_' + i + ': product.startsCount: ' + product.startsCount);
+            console.log('result_' + i + ': product.starsCount: ' + product.startsCount);
         }
 
         res.locals.products = products;
@@ -57,7 +57,7 @@ amazonController.getProductsHtmlLocal = (req, res, next) => {
             product.imageUrl = $('#result_' + i + ' .s-access-image').attr('src');
             product.price = $('#result_' + i + ' .sx-price-whole').text();
             product.stars = $('#result_' + i + ' .a-icon-alt').last().text();
-            product.startsCount = $('#result_' + i + ' .a-size-small.a-link-normal.a-text-normal').text();
+            product.starsCount = $('#result_' + i + ' .a-size-small.a-link-normal.a-text-normal').text();
             products.push(product);
 
             console.log('result_' + i + ': product.name: ' + product.name);
@@ -66,7 +66,7 @@ amazonController.getProductsHtmlLocal = (req, res, next) => {
             console.log('result_' + i + ': product.manufacturer: ' + product.manufacturer);
             console.log('result_' + i + ': product.price: ' + product.price);
             console.log('result_' + i + ': product.stars: ' + product.stars);
-            console.log('result_' + i + ': product.startsCount: ' + product.startsCount);
+            console.log('result_' + i + ': product.starsCount: ' + product.startsCount);
         }
         res.locals.products = products;
         res.locals.amazonHtml = html;

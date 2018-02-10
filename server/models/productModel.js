@@ -6,9 +6,9 @@ let productSchema = new Schema({
   asin: String,
   url: String,
   imageUrl: String,
-  price: Number,
+  price: String,
   stars: String,
-  starsCount: Number,
+  starsCount: String,
 });
 
 module.exports = mongoose.model('product', productSchema);
