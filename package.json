@@ -4,18 +4,17 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-<<<<<<< HEAD
-=======
     "start": "nodemon server/server.js",
->>>>>>> 227d8ea7a04545b082c5d0113edb6d2ad9750512
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.14.2",
+    "cheerio": "^1.0.0-rc.2",
     "express": "^4.13.4",
     "mongoose": "^5.0.4",
+    "request": "^2.83.0",
     "socket.io": "^2.0.4"
   }
 }
