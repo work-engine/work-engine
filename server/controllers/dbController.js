@@ -5,11 +5,13 @@ const dbController = {};
 dbController.save = (req, res, next) => {
   console.log('In db function');
   Product.create({
-    productName: req.body.productName,
-    productLink: req.body.productLink,
-    productImg: req.body.productImg,
-    price: req.body.price,
-    stars: req.body.stars,
+    name: req.body.productName,
+    asin: req.body.productAsin,
+    url: req.body.productUrl,
+    imageUrl: req.body.productImgUrl,
+    price: req.body.productPrice,
+    stars: req.body.productStars,
+    starsCount: req.body.starsCount,
   }.then(product => {
     res.locals.product = product;
     next();
@@ -18,5 +20,6 @@ dbController.save = (req, res, next) => {
     next(err);
   }));
 }
+
 
 module.exports = dbController;
