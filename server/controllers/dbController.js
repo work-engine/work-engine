@@ -58,8 +58,7 @@ dbController.save = (req, res, next) => {
 
   Promise.all(promises)
     .then(success => {
-      console.log('All of the promises have been resolved!');
-      console.log('This is success: ', success);
+      console.log('All of the promises have been resolved: ', success);
       res.locals.products = success;
       next();
     });
