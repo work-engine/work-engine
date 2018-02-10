@@ -18,6 +18,9 @@ const server = http.createServer(app);
 // Pass a http.Server instance to the listen method
 const io = require('socket.io').listen(server);
 
+// CONTROLLERS
+const amazonController = require('./controllers/amazonController');
+
 // The server should start listening
 server.listen(3000, () => {
   console.log('Server is now listening on port 3000');
@@ -33,6 +36,20 @@ app.use(bodyParser.json());
 
 // define a route for static files
 app.use(express.static(__dirname + '/../client/'));
+
+app.get('/amazon/', 
+  amazonController.getProductsHtml,
+  (req, res) => {
+    res.send(res.locals.amazonHtml);
+  }
+);
+
+app.get('/amazon/local/', 
+  amazonController.getProductsHtmlLocal,
+  (req, res) => {
+    res.json(res.locals.products);
+  }
+);
 
 // Route requests to to '/api' router handling endpoint
 app.use('/api', apiRouter);

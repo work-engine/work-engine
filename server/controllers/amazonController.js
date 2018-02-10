@@ -55,7 +55,6 @@ amazonController.getProductsHtmlLocal = (req, res, next) => {
             product.name = $('#result_' + i + ' h2').text();
             product.asin = $('#result_' + i).attr('data-asin');
             product.imageUrl = $('#result_' + i + ' .s-access-image').attr('src');
-            // product.manufacturer = $('result_' + i + ' .a-size-small.a-color-secondary').text();
             product.price = $('#result_' + i + ' .sx-price-whole').text();
             product.stars = $('#result_' + i + ' .a-icon-alt').last().text();
             product.startsCount = $('#result_' + i + ' .a-size-small.a-link-normal.a-text-normal').text();
