@@ -70,6 +70,7 @@ amazonController.getProductsHtmlLocal = (req, res, next) => {
         }
         res.locals.products = products;
         res.locals.amazonHtml = html;
+        console.log(products);
         next();
     });
 

@@ -76,15 +76,16 @@ class AmazonProductsFinder {
 
   sendProductUrlToServer(productsUrl) {
     console.log(`sendProductUrlToServer ${productsUrl}`);
-    // fetch('/api/go', {
-    //   method: 'POST'
-    // })
-    //   .then(res => { return res.json() })
-    //   .then(countries => {
-    //     console.log('countries.js - getCountries - fetch sucess', countries);
-    //     cb(countries);
-    //   })
-    //   .catch(error => console.error('Error:', error));
+    fetch('/api/go', {
+      method: 'POST',
+      body: JSON.stringify({url: productsUrl});
+    })
+      .then(res => { return res.json() })
+      .then(products => {
+        console.log('products', products);
+        cb(products);
+      })
+      .catch(error => console.error('Error:', error));
   }
 
   createProductUrls(products) {

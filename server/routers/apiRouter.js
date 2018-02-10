@@ -7,7 +7,7 @@ const dbController = require('../controllers/dbController');
 const amazonController = require('../controllers/amazonController');
 
 // ROUTES
-router.post('/api/go', 
+router.post('/go', 
   amazonController.getProductsHtmlLocal,
   dbController.save,
   (req, res) => {
