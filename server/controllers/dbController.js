@@ -5,9 +5,6 @@ const socketsController = require('./socketsController');
 const dbController = {};
 
 dbController.save = (req, res, next) => {
-<<<<<<< HEAD
-  let arr = [{"name":"[Sponsored]TaoTronics LED Desk Lamp, Eye-caring Table Lamps, Dimmable Office Lamp with USB Charging Port, Touch Control, 5 Color Modes, White, 12W, Official Member of Philips EnabLED Licensing Program","asin":"B00VUTAFR8","imageUrl":"./amazon_files/31WnqmqyKIL._AC_US200_.jpg","price":"29","stars":"4.8 out of 5 stars","startsCount":"6,540"},{"name":"[Sponsored]LE Dimmable LED Desk Lamp, 7 Dimming Levels, Eye-care, 8W, Touch Sensitive, Daylight White, Folding Table Lamps, Reading Lamps, Bedroom Lamps (Silver White)","asin":"B00VWLPRKO","imageUrl":"./amazon_files/31iaVFJNDVL._AC_US200_.jpg","price":"21","stars":"4.6 out of 5 stars","startsCount":"1,532"},{"name":"[Sponsored]LED Desk Lamp, TaoTronics Stylish Metal Table Lamps, Office Light with USB Charging Port, 5 Color Modes, 6 Brightness Levels, Memory/ Favorite Function, Timer, Night light","asin":"B01EJJDD10","imageUrl":"./amazon_files/31HXZhLezRL._AC_US200_.jpg","price":"64","stars":"4.8 out of 5 stars","startsCount":"Save 5% with coupon1,585"},{"name":"TaoTronics LED Desk Lamp, Eye-caring Table Lamps, Dimmable Office Lamp with USB Charging Port, Touch Control, 5 Color Modes, White, 12W, Official Member of Philips EnabLED Licensing Program","asin":"B00VUTAFR8","imageUrl":"./amazon_files/31WnqmqyKIL._AC_US200_.jpg","price":"29","stars":"4.8 out of 5 stars","startsCount":"6,540"},{"name":"TaoTronics LED Desk Lamp with Wireless Charger, Standard Charge for iPhone X / 8 / 8 Plus / Nexus / Xperia & Fast Charge for Galaxy S8 / S8+ / S7 / S7 Edge, 5 modes & 7 Brightness Levels, USB Port","asin":"B078HQZ8ZQ","imageUrl":"./amazon_files/31XDRMbzr4L._AC_US200_.jpg","price":"39","stars":"4.5 out of 5 stars","startsCount":"15"}];
-=======
   // let arr = [ { name: '[Sponsored]TaoTronics LED Desk Lamp, Eye-caring Table Lamps, Dimmable Office Lamp with USB Charging Port, Touch Control, 5 Color Modes, White, 12W, Official Member of Philips EnabLED Licensing Program',
   //               asin: 'B00VUTAFR8',
   //               imageUrl: './amazon_files/31WnqmqyKIL._AC_US200_.jpg',
@@ -39,7 +36,6 @@ dbController.save = (req, res, next) => {
   //               stars: '4.5 out of 5 stars',
   //               starsCount: '15' } ];
 
->>>>>>> 1b6ffa58c5174e65f5b9c4527154286ee8aa85f9
   // Create a promises for each element saved in the db
   let promises = res.locals.products.map(elem => {
     return new Promise((resolve, reject) => {
@@ -66,10 +62,6 @@ dbController.save = (req, res, next) => {
       res.locals.products = success;
       next();
     });
-<<<<<<< HEAD
-  next();
-=======
->>>>>>> 1b6ffa58c5174e65f5b9c4527154286ee8aa85f9
 }
 
 module.exports = dbController;
