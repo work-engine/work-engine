@@ -8,11 +8,11 @@ const amazonController = require('../controllers/amazonController');
 
 router.post('/receive',
   dbController.save,
-  (req, res) => res.status(200).send('Success')
+  (req, res) => res.status(200).send(res.locals.products)
 )
 
 // Handles POST requests with user input information
-router.post('/api/go', 
+router.post('/go', 
   amazonController.getProductsHtmlLocal,
   dbController.save,
   (req, res) => {
