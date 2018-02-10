@@ -19,8 +19,8 @@ const dbController = require('../controllers/dbController');
 // Handle POST request to '/api/recieve' containing information sent by
 // nightmare
 router.post('/api/recieve',
-  dbController.save,
-  socketsController.emit,
+  // dbController.save,
+  // socketsController.emit,
   (req, res) => res.status(200).send('Success')
 );
 
