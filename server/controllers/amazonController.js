@@ -6,8 +6,8 @@ const fs = require('fs');
 const amazonController = {};
 
 amazonController.getProductsHtml = (req, res, next) => {
-    
-    const url = 'https://www.amazon.com/s/?keywords=televisions&low-price=20&high-price=40&ref=sr_nr_p_72_0';
+    const url = req.params.url; 
+    //const url = 'https://www.amazon.com/s/?keywords=televisions&low-price=20&high-price=40&ref=sr_nr_p_72_0';
     request(url, (error, response, html) => {
         if (error) {
             //console.log('amazonController.js  - getProductsHtml - request error');
@@ -42,9 +42,8 @@ amazonController.getProductsHtml = (req, res, next) => {
     });
 }
 
-amazonController.getProductsHtmlLocal = (req, res, next) => {
-
-    fs.readFile(__dirname + '/amazon.html', function read(err, html) {
+amazonController.getProductsHtmlLocal = (req, res, next) => { 
+    fs.readFile(__dirname + '/amazonOptions/chandelier.html', function read(err, html) {
         if (err) {
             throw err;
         }

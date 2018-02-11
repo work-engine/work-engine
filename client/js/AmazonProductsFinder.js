@@ -47,7 +47,7 @@ class AmazonProductsFinder {
   productFormInsertRowHtml(){
     let str = `
     <div class="productsFormRow columns">
-      <div class="column"><input class="productKeyword" type="text" value="keyword"/></div>
+      <div class="column"><input class="productKeyword" type="text" value="product"/></div>
       <div class="column"><input class="productMinPrice" type="text" value="0" /></div>
       <div class="column"><input class="productMaxPrice" type="text" value="10" /></div>
       <div class="column"><input class="productStarRating" type="text" value="3" /></div>
@@ -59,7 +59,7 @@ class AmazonProductsFinder {
 
   productFormInitEvents(){ 
     $('.productsFormRow .productDelete').click(e =>{
-      $(e.target).parent().remove();
+      $(e.target).parent().parent().remove();
     });
   }
 
@@ -78,15 +78,15 @@ class AmazonProductsFinder {
     console.log(`sendProductUrlToServer ${productsUrl}`);
     fetch('/api/go', {
       method: 'POST',
-      body: JSON.stringify({url: productsUrl});
+      body: JSON.stringify({url: productsUrl})
     })
       .then(res => { return res.json() })
       .then(products => {
-        console.log('products', products);
-        cb(products);
+        console.log('attempting to send products', products);
+        //cb(products);
+        this.amazonProductsController.productsLoaded(products) 
       })
       .catch(error => console.error('Error:', error));
-
   }
 
   createProductUrls(products) {
@@ -140,17 +140,6 @@ class AmazonProductsFinder {
       products.push(product);
     }
     return products;
-  }
-
-  showProductsForm() {
-    //this.createForm();
-    //this.initFormEvents();
-   // $('#amazonProductFinderContainer').show();
-   // this.amazonProductsController.loadProducts();
-  }
-
-  hideProductsForm() {
-    $('#amazonProductFinderContainer').hide();
   }
 }
 

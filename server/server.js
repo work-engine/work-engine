@@ -34,23 +34,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 // Send index.html to a request for the homepage
-app.get('/',
-  (req, res) => res.sendFile(path.join(__dirname, '..', './index.html'))
-);
-
-app.get('/amazon/', 
-  amazonController.getProductsHtml,
-  (req, res) => {
-    res.send(res.locals.amazonHtml);
-  }
-);
-
-app.get('/amazon/local/', 
-  amazonController.getProductsHtmlLocal,
-  (req, res) => {
-    res.json(res.locals.products);
-  }
-);
+app.use(express.static(__dirname + './../client/'));
 
 // Route requests to to '/api' router handling endpoint
 app.use('/api', apiRouter);

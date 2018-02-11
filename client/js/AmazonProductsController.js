@@ -12,6 +12,14 @@ class AmazonProductsController {
 
         this.apd = new AmazonProductsDisplay(this, this.apm);
         this.apd.init();
+        
+    }
+
+    productsLoaded(products){
+        console.log('AmazonProductsController: ' + products);
+        //$('#amazonProductFinderContainer').hide();
+        $('#amazonProductsDisplayContainer').show();
+        this.apd.productFormInsertRowHtml(products);
     }
 
     loadProducts(){
@@ -19,10 +27,30 @@ class AmazonProductsController {
         //this.apd.show();
     }
 
-
     editProducts(){
         this.apf.hideProductsForm();
         //this.apd.hide();
     }
+
+/*//
+  showProductsForm() {
+    //this.createForm();
+    //this.initFormEvents();
+   // 
+   // this.amazonProductsController.loadProducts();
+  }
+
+  hideProductsForm() {
+    $('#amazonProductFinderContainer').hide();
+  }
+  show() {
+    this.createProductsDisplay();
+    $('#amazonProductsDisplayContainer').show();
+  }
+
+  hide() {
+    $('#amazonProductsDisplayContainer').hide();
+  }
+//*/
 
 }
