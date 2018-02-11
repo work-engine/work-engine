@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-let productSchema = new Schema({
+// Define Mongoose product schema
+const productSchema = new Schema({
   name: String,
   asin: String,
   url: String,

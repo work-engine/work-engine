@@ -76,17 +76,17 @@ class AmazonProductsFinder {
 
   sendProductUrlToServer(productsUrl) {
     console.log(`sendProductUrlToServer ${productsUrl}`);
-    fetch('/api/go', {
-      method: 'POST',
-      body: JSON.stringify({url: productsUrl});
-    })
-      .then(res => { return res.json() })
-      .then(products => {
-        console.log('products', products);
-        cb(products);
-      })
-      .catch(error => console.error('Error:', error));
-
+    $.ajax({
+      type: "POST",
+      url: '/api/go',
+      data: { 
+        'url': productsUrl, 
+      },
+      success: ((success) => {
+          console.log(success)
+      }),
+      dataType: 'text/html'
+    });
   }
 
   createProductUrls(products) {
