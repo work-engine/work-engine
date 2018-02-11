@@ -1,61 +1,40 @@
-// Handle middleware
+// Import dependencies to setup server and database
 const express = require('express');
-// Parse req.body
 const bodyParser = require('body-parser');
-// Use path.join
 const path = require('path');
-// Create middleware
 const app = express();
-// Import api router
-const apiRouter = require('./routers/apiRouter')
-// Import mongoose
 const mongoose = require('mongoose');
-// Import http
+
+// Import dependencies to setup web sockets
 const http = require('http');
-// Create a server
 const server = http.createServer(app);
-// Pass a http.Server instance to the listen method
 const io = require('socket.io').listen(server);
 
-// CONTROLLERS
-const amazonController = require('./controllers/amazonController');
+// Importing routers for 'api' and 'amazon' endpoints
+const apiRouter = require('./routers/apiRouter');
+const amazonRouter = require('./routers/amazonRouter');
 
-// The server should start listening
-server.listen(3000, () => {
-  console.log('Server is now listening on port 3000');
-});
-
-// Sets the db to 'work_engine'
+// Connect to local db 'work_engine'
 const mongoURI = 'mongodb://localhost/work_engine';
 mongoose.connect(mongoURI);
 
-// Allows us to read req.body as an object
+// Start server on port 3000
+server.listen(3000, () => console.log('Server is now listening on port 3000'));
+
+// Allows us to read req.body 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
-// Send index.html to a request for the homepage
-app.get('/',
-  (req, res) => res.sendFile(path.join(__dirname, '..', './index.html'))
-);
+// Allow client to be public 
+app.use(express.static(path.join(__dirname, './../client')));
 
-app.get('/amazon/', 
-  amazonController.getProductsHtml,
-  (req, res) => {
-    res.send(res.locals.amazonHtml);
-  }
-);
-
-app.get('/amazon/local/', 
-  amazonController.getProductsHtmlLocal,
-  (req, res) => {
-    res.json(res.locals.products);
-  }
-);
-
-// Route requests to to '/api' router handling endpoint
+// Route requests to '/api' router 
 app.use('/api', apiRouter);
 
-// Intercept all requests to an endpoint without a route within '/'
+// Route requests to '/amazon' router
+app.use('/amazon', amazonRouter);
+
+// Intercept stray requests
 app.all('*', (req, res, next) => {
   console.log('catch all on the root');
   err = new Error('index.js - default catch all route - not found');
@@ -64,13 +43,9 @@ app.all('*', (req, res, next) => {
   next(err);
 });
 
-// If an error is passed into next() by any route, thise function gets invoked and sends
-// an error message to the client
+// Log error messages
 app.use((err, req, res, next) => {
   const error = err.functionName ? `${err.functionName} ${err}` : err;
   const errorStatus = err.status ? err.status : 500;
   res.status(errorStatus).end(`Server.js - ${error}`);
-})
-
-// Start the server on port 3000
-// app.listen(3000, () => console.log(`Listening on PORT: 3000 from server.js`));
+});

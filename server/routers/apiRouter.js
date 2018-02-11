@@ -6,6 +6,7 @@ const router = express.Router();
 const dbController = require('../controllers/dbController');
 const amazonController = require('../controllers/amazonController');
 
+// Test route with Postman
 router.post('/receive',
   dbController.save,
   (req, res) => res.status(200).send(res.locals.products)
@@ -13,11 +14,9 @@ router.post('/receive',
 
 // Handles POST requests with user input information
 router.post('/go', 
-  amazonController.getProductsHtmlLocal,
+  amazonController.getProductsHtml,
   dbController.save,
-  (req, res) => {
-    res.status(200).json(res.locals.products);
-  }
+  (req, res) => res.status(200).send(res.locals.products)
 );
 
 // ALL UNDEFINED ROUTES - Intercept all requests to an endpoint /api/* that aren't explicitly defined above

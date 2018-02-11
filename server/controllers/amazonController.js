@@ -5,10 +5,16 @@ const request = require('request');
 const fs = require('fs');
 const amazonController = {};
 
+
 amazonController.getProductsHtml = (req, res, next) => {
-    
-    const url = 'https://www.amazon.com/s/?keywords=televisions&low-price=20&high-price=40&ref=sr_nr_p_72_0';
-    request(url, (error, response, html) => {
+    console.log('hello');
+    // "https://www.amazon.com/s/?keywords=keyword&low-price=0&high-price=10&ref=sr_nr_p_72_0"
+    console.log(req.body);
+    // const url = 'https://www.amazon.com/s/?keywords=' + req.body['https://www.amazon.com/s/?keywords'] +
+    //             '&low-price=' + req.body['low-price'] + '&high-price=' + req.body['high-price'] +
+    //             '&ref=' + req.body['ref'];
+    request(req.body.url, (error, response, html) => {
+        console.log('In the request body')
         if (error) {
             //console.log('amazonController.js  - getProductsHtml - request error');
             err = new Error(`Error getting making request`);
