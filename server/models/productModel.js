@@ -1,14 +1,17 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-let productSchema = new Schema({
+// Define Mongoose product schema
+const productSchema = new Schema({
+  keywords: String,
   name: String,
   asin: String,
   url: String,
   imageUrl: String,
+  manufacturer: String,
   price: String,
   stars: String,
-  starsCount: String,
+  reviews: String,
 });
 
 module.exports = mongoose.model('product', productSchema);

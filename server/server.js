@@ -1,45 +1,35 @@
-// Handle middleware
+// EXPRESS SERVER
 const express = require('express');
-// Parse req.body
-const bodyParser = require('body-parser');
-// Use path.join
-const path = require('path');
-// Create middleware
 const app = express();
-// Import api router
-const apiRouter = require('./routers/apiRouter')
-// Import mongoose
-const mongoose = require('mongoose');
-// Import http
-const http = require('http');
-// Create a server
-const server = http.createServer(app);
-// Pass a http.Server instance to the listen method
-const io = require('socket.io').listen(server);
 
-// CONTROLLERS
-const amazonController = require('./controllers/amazonController');
-
-// The server should start listening
-server.listen(3000, () => {
-  console.log('Server is now listening on port 3000');
-});
-
-// Sets the db to 'work_engine'
-const mongoURI = 'mongodb://localhost/work_engine';
-mongoose.connect(mongoURI);
-
-// Allows us to read req.body as an object
+// MIDDLEWARE - FOR PARSING OF FORMS AND JSON
+const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
-// Send index.html to a request for the homepage
-app.use(express.static(__dirname + './../client/'));
+// MIDDLEWARE - FOR PATH
+const path = require('path');
 
-// Route requests to to '/api' router handling endpoint
-app.use('/api', apiRouter);
+// WEB SOCKETS - AND RELATED DEPENDENCIES
+const http = require('http');
+const server = http.createServer(app);
+const io = require('socket.io').listen(server);
 
-// Intercept all requests to an endpoint without a route within '/'
+// ROUTERS - FOR API 
+const amazonRouter = require('./routers/amazonRouter');
+
+// DATABASE
+const mongoose = require('mongoose');
+const mongoURI = 'mongodb://localhost/work_engine';
+mongoose.connect(mongoURI);
+
+// DEFAULT PATH FOR STATIC FILES - SERVES INDEX.HTML
+app.use(express.static(path.join(__dirname, './../client')));
+
+// ROUTES
+app.use('/api/amazon', amazonRouter);
+
+// INTERCEPTS ALL STRAY REQUESTS 
 app.all('*', (req, res, next) => {
   console.log('catch all on the root');
   err = new Error('index.js - default catch all route - not found');
@@ -48,13 +38,12 @@ app.all('*', (req, res, next) => {
   next(err);
 });
 
-// If an error is passed into next() by any route, thise function gets invoked and sends
-// an error message to the client
+// GLOBAL ERROR CATCHER
 app.use((err, req, res, next) => {
   const error = err.functionName ? `${err.functionName} ${err}` : err;
   const errorStatus = err.status ? err.status : 500;
   res.status(errorStatus).end(`Server.js - ${error}`);
-})
+});
 
-// Start the server on port 3000
-// app.listen(3000, () => console.log(`Listening on PORT: 3000 from server.js`));
+// EXPRESS SERVER - LISTEN ON 3000
+server.listen(3000, () => console.log('Server is now listening on port 3000'));

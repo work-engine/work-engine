@@ -1,114 +1,84 @@
 class AmazonProductsDisplay {
 
-    constructor(amazonProductsController, amazonProductsModel) {
-        this.amazonProductsController = amazonProductsController;
-        this.amazonProductsModel = amazonProductsModel;
+    constructor(amazonProductsPresenter) {
+        this.amazonProductsPresenter = amazonProductsPresenter;
     }
-  
+
     init() {
-        this.createProductsDisplay();
-        this.initProductsDisplayEvents();
+        this.productsDisplayContainer = $('#amazonProductsDisplayContainer');
+        this.productsDisplayCreate();
+        this.productsDisplayProducts = $('#productsDisplayProducts');
+        this.backToProductsFinderButton = $('#backToProductFinder');
+        this.addSelectedProductsToCart = $('#addSelectedProductsToCart');
+        this.productsDisplayEventsInit();
+
+        // test data for 1 row can be made to the display UI
+        // const productsSample = [{name: 'test products', imageUrl: '/.jpg', url: '.html', price: '30', stars: '3', starsCount:'200', asin: 'B077SCNCHF'}];
+        // this.productsDisplayEvent_showProducts(productsSample);
     }
 
-    createProductsDisplay() {
+    // productsDisplayCreate - inserts it's html into the dom
+    productsDisplayCreate() {
+        this.productsDisplayContainer.html('');
         let str = `
-        <div id="productsDisplayHeaders" class="columns">  
-            <div class="column">Description</div>
-            <div class="column">Price</div>
-            <div class="column">Stars</div>
-            <div class="column">Star Count</div>
-            <div class="column">Add to Order</div>
+        <h2>Products</h2>
+        <div id="productsDisplayHeaders" class="tableHeader columns">  
+            <div class="column"><h5>Image</h5></div>    
+            <div class="column is-one-third"><h5>Description</h5></div>
+            <div class="column centerText"><h5>Price</h5></div>
+            <div class="column centerText"><h5>Stars</h5></div>
+            <div class="column centerText"><h5>Reviews</h5></div>
+            <div class="column centerText"><h5>Add to Order</h5></div>
         </div>
-        <div id="productsDisplayProducts"></div>
-        <div>
-            <button id="editProducts">Edit Products</button><button id="addSelectedProductsToCart">Add Selected Products to Amazon Cart</button>
+        <div id="productsDisplayProducts" class="tableBody"></div>
+        <div id="productsDisplayFooters" class="tableFooter">
+            <button id="backToProductFinder">Back to Product Finder</button><button id="addSelectedProductsToCart">Add Selected to Amazon Cart</button>
         </div>`;
-        $('#amazonProductsDisplayContainer').html(str);
+        this.productsDisplayContainer.html(str).fadeIn();
     }
-    initProductsDisplayEvents() {
-        $('#editProducts').click((e) => {
-            this.amazonProductsController.editProducts();
+
+    // productsDisplayEventsInit - initializes button events for newly created html
+    productsDisplayEventsInit() {
+        this.backToProductsFinderButton.click(e => {
+            this.productsDisplayProducts.html('');
+            this.amazonProductsPresenter.productsDisplayEvent_backToProductsFinderClicked();
         });
-        $('#addSelectedProductsToCart').click(e => {
-            console.log('addSelectedProductsToCart');
-            let asins = this.createProductAsinsArray();
-            let addToCartUrl = this.createAddToCartUrl(asins);
-            console.log('addToCartUrl' + addToCartUrl);
-            let win = window.open(addToCartUrl, '_blank');
-            // https://www.amazon.com/gp/aws/cart/add.html?AWSAccessKeyId=AKIAJNLAGUG5AQBDB4YA&AssociateTag=workengine123-20&ASIN.1=B00MQLB1N6&Quantity.1=1&ASIN.2=&Quantity.2=&add=add
+        this.addSelectedProductsToCart.click(e => {
+            let asins = this.helper_createProductAsinsArray();
+            if (asins.length) {
+                this.amazonProductsPresenter.productsDisplayEvent_addToCartClicked(asins);
+            }
         });
-      }
-      createAddToCartUrl(asins){
-          const baseUrl = `https://www.amazon.com/gp/aws/cart/add.html?`;
-          const awsKeys = `AWSAccessKeyId=AKIAJNLAGUG5AQBDB4YA&AssociateTag=workengine123-20`;
+    }
 
-          `https://www.amazon.com/gp/aws/cart/add.html?
-          AWSAccessKeyId=AKIAJNLAGUG5AQBDB4YA&AssociateTag=workengine123-20
-          &ASIN.1=B00MQLB1N6&Quantity.1=1
-          &ASIN.2=&Quantity.2=
-          &add=add`
-
-            //   `&ASIN.1=B00MQLB1N6&Quantity.1=1&ASIN.2=&Quantity.2=&add=add`
-            let asinStr = '';
-            asins.forEach((asin, i) => {
-                let itemId = i + 1;
-                asinStr += `&ASIN.${itemId}=${asin}&Quantity.${itemId}=1`;
-            });
-            asinStr += `&add=add`;
-            return `${baseUrl}${awsKeys}${asinStr}`;
-      }
-
-      createProductAsinsArray() {
-            // loop thru products
-            // find ones that are checked
-            // get the asin value for each one
-            // build a url to add to cart
-        let productAsins = [];
-        let productRows = $('#productsDisplayProducts .productsFormRow').length;
-        for (let i = 1; i <= productRows; i++) {
-          if ($('#productsDisplayProducts .productsFormRow:nth-child(' + i + ') .productSelected').is(":checked")) {
-            let asin = $('#productsDisplayProducts .productsFormRow:nth-child(' + i + ') .asin').val();
-            // it is checked
-            productAsins.push(asin);
-            console.log(asin);
-          }
-        }
-        console.log(productAsins);
-        return productAsins;
-      }
-
-  
-      productFormInsertRowHtml(products){
-          console.log('productFormInsertRowHtml: ' + products);
-          products.forEach(product => {
+    // productsDisplayEventsInit - event from presenter that passes an array of products to this function to render a row for each product
+    productsDisplayEvent_showProducts(products) {
+        products.forEach((product, i) => {
             let str = `
-            <div class="productsFormRow columns">
-              <div class="column">${product.name}</div>
-              <div class="column">${product.price}</div>
-              <div class="column">${product.stars}</div>
-              <div class="column">${product.starsCount}</div>
-              <div class="column"><input class="productSelected" type="checkbox" /><input type="hidden" class="asin" value="${product.asin}" /></div>
+            <div class="productRow columns">
+              <div class="column"><img src="${product.imageUrl}" width="200px" /></div>
+              <div class="column is-one-third"><a target="_blank" href="${product.url}">${product.name}</a></div>
+              <div class="column centerText">$${product.price}</div>
+              <div class="column centerText">${product.stars}</div>
+              <div class="column centerText">${product.reviews}</div>
+              <div class="column centerText"><input class="productSelected" type="checkbox" /><input type="hidden" class="asin" value="${product.asin}" /></div>
             </div>
             `;
-            $('#productsDisplayProducts').append(str);
-          });
-      }
+            this.productsDisplayProducts.append(str).fadeIn(200 + i * 50);
+        });
+    }
+
+    // helper_createProductAsinsArray - loops thru the table and gathers the hidden asin values into an array
+    helper_createProductAsinsArray() {
+        let productAsins = [];
+        let productRows = $('#productsDisplayProducts .productRow').length + 1;
+        for (let i = 1; i < productRows; i++) {
+            if ($('#productsDisplayProducts .productRow:nth-child(' + i + ') .productSelected').is(":checked")) {
+                let asin = $('#productsDisplayProducts .productRow:nth-child(' + i + ') .asin').val();
+                productAsins.push(asin);
+            }
+        }
+        return productAsins;
+    }
+
 }
-
-/*//
-<form method="GET" action="https://www.amazon.com/gp/aws/cart/add.html"> 
-<input type="hidden" name="AWSAccessKeyId" value="Access Key ID" /><br/> 
-<input type="hidden" name="AssociateTag" value="Associate Tag" /><br/> 
-<p>One Product<br/> 
-ASIN:<input type="text" name="ASIN.1"/><br/> 
-Quantity:<input type="text" name="Quantity.1"/><br/> 
-<p>Another Product<br/> 
-ASIN:<input type="text" name="ASIN.2"/><br/> 
-Quantity:<input type="text" name="Quantity.2"/><br/> 
-</p> 
-<input type="submit" name="add" value="add" /> 
-</form>
-
-Append each set of parameters with a period, then a unique identifier, which establishes a relationship between the parameters (for example, "ASIN.1=[ASIN]&Quantity.1=1&ASIN.2=[Another ASIN]&Quantity.2=10").
-
-//*/

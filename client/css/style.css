@@ -4,76 +4,63 @@ body {
   font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
 }
 
+.section {
+  padding: 1.5rem .75rem 1.5rem .75rem;
+}
+
+h1 {  font-size: 2.5rem; line-height: 2.75rem; margin-bottom: 1.25rem; }
+h2 {  font-size: 2rem; line-height: 2.5rem; margin-bottom: 1rem; }
+h3 {  font-size: 1.75rem; line-height: 2rem; margin-bottom: .75rem; }
+h4 {  font-size: 1.5rem; line-height: 1.75rem; margin-bottom: .5rem; }
+h5 {  font-size: 1.25rem; line-height: 1.5rem; margin-bottom: .25rem; }
+h6 {  font-size: 1rem; line-height: 1.25rem; margin-bottom: .25rem; }
+
+input[type=text] {
+  margin: .1rem 0 .1rem 0;;
+  width: 100%;
+  font-size: 1rem;
+  padding: .4rem;
+}
+input[type=checkbox] {
+	margin: .4rem 0 0 0;
+}
+button {
+  font-size: 1rem;
+  margin: .5rem 0rem 0 1rem;
+  padding: .5rem;
+}
+
 #wrapper {
   margin: 0 auto;
   width: 40rem;
   background: #f0f0f0;
 }
 
-/*//
-
-.productsFormRow {
-  display: flex;
-  flex-direction: row;
-  align-items: stretch;
-  
+#header {
+  margin-bottom: 0;
+  padding-bottom: 0;
 }
 
-.productsFormRow .keyword{
-  flex: 1 1 15rem;
-  background: #aaa;
-  padding: 10px;
+.centerText {
+  text-align: center;
+}
+.tableHeader {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  background: #dddddd;
 }
 
-.productsFormRow .min{
-  flex: 0 1 6rem;
-  background: #bbb;
-  padding: 10px;
+.tableBody {
+  margin-bottom: 2rem;
+  padding-bottom: 0;
 }
 
-.productsFormRow .max{
-  flex: 0 1 6rem;
-  background: #ccc;
-  padding: 10px;
+.tableBody div.column {
+  margin-bottom: 0;
+  padding-bottom: 0;
 }
 
-.productsFormRow .stars {
-  flex: 0 1 4rem;
-  background: #ddd;
-  padding: 10px;
+.tableFooter {
+  margin-bottom: 0;
+  text-align: right;
 }
-
-.productsFormRow .remove{
-  flex: 0 1 3rem;
-  background: #eee;
-  padding: 10px;
-}
-
-//*/
-
-
-input[type=text] {
-  margin: .1rem 0 .1rem 0;;
-  width: 100%;
-}
-input[type=checkbox] {
-	margin: .2rem 0rem .1rem 0rem;
-}
-button {
-  margin: .1rem 0;
-}
-
-
-
-/*//
-
-body { font: 13px Helvetica, Arial; }
-form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
-form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
-form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
-#messages { list-style-type: none; margin: 0; padding: 0; }
-#messages li { padding: 5px 10px; }
-#messages li:nth-child(odd) { background: #eee; }
-#messages { margin-bottom: 40px }
-
-//*/
