@@ -1,40 +1,35 @@
-// Import dependencies to setup server and database
+// EXPRESS SERVER
 const express = require('express');
-const bodyParser = require('body-parser');
-const path = require('path');
 const app = express();
-const mongoose = require('mongoose');
 
-// Import dependencies to setup web sockets
+// MIDDLEWARE - FOR PARSING OF FORMS AND JSON
+const bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
+
+// MIDDLEWARE - FOR PATH
+const path = require('path');
+
+// WEB SOCKETS - AND RELATED DEPENDENCIES
 const http = require('http');
 const server = http.createServer(app);
 const io = require('socket.io').listen(server);
 
-// Importing routers for 'api' and 'amazon' endpoints
-const apiRouter = require('./routers/apiRouter');
+// ROUTERS - FOR API 
 const amazonRouter = require('./routers/amazonRouter');
 
-// Connect to local db 'work_engine'
+// DATABASE
+const mongoose = require('mongoose');
 const mongoURI = 'mongodb://localhost/work_engine';
 mongoose.connect(mongoURI);
 
-// Start server on port 3000
-server.listen(3000, () => console.log('Server is now listening on port 3000'));
-
-// Allows us to read req.body 
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(bodyParser.json());
-
-// Allow client to be public 
+// DEFAULT PATH FOR STATIC FILES - SERVES INDEX.HTML
 app.use(express.static(path.join(__dirname, './../client')));
 
-// Route requests to '/api' router 
-app.use('/api', apiRouter);
+// ROUTES
+app.use('/api/amazon', amazonRouter);
 
-// Route requests to '/amazon' router
-app.use('/amazon', amazonRouter);
-
-// Intercept stray requests
+// INTERCEPTS ALL STRAY REQUESTS 
 app.all('*', (req, res, next) => {
   console.log('catch all on the root');
   err = new Error('index.js - default catch all route - not found');
@@ -43,9 +38,12 @@ app.all('*', (req, res, next) => {
   next(err);
 });
 
-// Log error messages
+// GLOBAL ERROR CATCHER
 app.use((err, req, res, next) => {
   const error = err.functionName ? `${err.functionName} ${err}` : err;
   const errorStatus = err.status ? err.status : 500;
   res.status(errorStatus).end(`Server.js - ${error}`);
 });
+
+// EXPRESS SERVER - LISTEN ON 3000
+server.listen(3000, () => console.log('Server is now listening on port 3000'));

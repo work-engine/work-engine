@@ -3,25 +3,34 @@ const express = require('express');
 const router = express.Router();
 
 // CONTROLLERS
+const dbController = require('../controllers/dbController');
 const amazonController = require('../controllers/amazonController');
 
-// Handle GET requests to 'amazon'
-router.get('/', 
+// ROUTE RETRIEVES - LIVE DATA FROM AMAZON BASED ON PASSED IN URL VALUE VIA JSON
+router.post('/go', 
   amazonController.getProductsHtml,
-  (req, res) => res.send(res.locals.amazonHtml)
+  dbController.save,
+  (req, res) => {
+    console.log(`/go - about to return: ${res.locals.products}`);
+    res.status(200).json(res.locals.products)
+  }
 );
 
-// Handle GET requests to 'amazon/local'
-router.get('local/', 
+// ROUTE RETRIEVES - STATIC DATA FROM FILES IN /server/controllers/amazonOptions FOLDER
+router.post('/go/local/', 
   amazonController.getProductsHtmlLocal,
-  (req, res) => res.json(res.locals.products)
+  dbController.save,
+  (req, res) => {
+    res.status(200).json(res.locals.products);
+    console.log(`/go/local/ - about to return: ${res.locals.products}`);
+  }
 );
 
 // ALL UNDEFINED ROUTES - Intercept all requests to an endpoint /api/* that aren't explicitly defined above
 router.all('*', (req, res, next) => {
-  err = new Error('apiRouter.js - default catch all route - not found');
-  err.status = 404;
-  next(err);
+   err = new Error('apiRouter.js - default catch all route - not found');
+   err.status = 404;
+   next(err);
 });
 
 module.exports = router;

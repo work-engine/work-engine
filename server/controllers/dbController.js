@@ -6,22 +6,26 @@ const dbController = {};
 // Save each results into db
 dbController.save = (req, res, next) => {
   // Create a promises for each element saved in the db
-  let promises = res.locals.products.map(elem => {
+  let promises = res.locals.products.map(product => {
     return new Promise((resolve, reject) => {
       Product.create({
-        name: elem.name,
-        asin: elem.asin,
-        url: elem.url,
-        imageUrl: elem.imageUrl,
-        price: elem.price,
-        stars: elem.stars,
-        starsCount: elem.starsCount
-      }).then(product => {
-        console.log('Product has been successfully saved: ', product);
-        resolve(product);
-      }).catch(err => {
-        reject(err);
-      });
+        keywords: product.keywords,
+        name: product.name,
+        asin: product.asin,
+        url: product.url,
+        imageUrl: product.imageUrl,
+        manufacturer: product.manufacturer,
+        price: product.price,
+        stars: product.stars,
+        reviews: product.reviews
+      })
+        .then(product => {
+          console.log('Product has been successfully saved: ', product);
+          resolve(product);
+        })
+        .catch(err => {
+          reject(err);
+        });
     });
   });
   // Invoke all of the promises at the same time, and if all of the 

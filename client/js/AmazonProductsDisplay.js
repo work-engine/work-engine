@@ -1,56 +1,84 @@
 class AmazonProductsDisplay {
 
-    constructor(amazonProductsController, amazonProductsModel) {
-        this.amazonProductsController = amazonProductsController;
-        this.amazonProductsModel = amazonProductsModel;
+    constructor(amazonProductsPresenter) {
+        this.amazonProductsPresenter = amazonProductsPresenter;
     }
-  
+
     init() {
-        this.createProductsDisplay();
-        this.initProductsDisplayEvents();
-        this.productFormInsertRowHtml(productsArray);
+        this.productsDisplayContainer = $('#amazonProductsDisplayContainer');
+        this.productsDisplayCreate();
+        this.productsDisplayProducts = $('#productsDisplayProducts');
+        this.backToProductsFinderButton = $('#backToProductFinder');
+        this.addSelectedProductsToCart = $('#addSelectedProductsToCart');
+        this.productsDisplayEventsInit();
+
+        // test data for 1 row can be made to the display UI
+        // const productsSample = [{name: 'test products', imageUrl: '/.jpg', url: '.html', price: '30', stars: '3', starsCount:'200', asin: 'B077SCNCHF'}];
+        // this.productsDisplayEvent_showProducts(productsSample);
     }
 
-    createProductsDisplay() {
+    // productsDisplayCreate - inserts it's html into the dom
+    productsDisplayCreate() {
+        this.productsDisplayContainer.html('');
         let str = `
-        <div id="productsDisplayHeaders" class="productsDisplayHeaders productsDisplayRow">  
-            <div>Description with hyperlink</div>
-            <div>Price</div>
-            <div>Stars</div>
-            <div>Star Count</div>
-            <div>Add to Order</div>
+        <h2>Products</h2>
+        <div id="productsDisplayHeaders" class="tableHeader columns">  
+            <div class="column"><h5>Image</h5></div>    
+            <div class="column is-one-third"><h5>Description</h5></div>
+            <div class="column centerText"><h5>Price</h5></div>
+            <div class="column centerText"><h5>Stars</h5></div>
+            <div class="column centerText"><h5>Reviews</h5></div>
+            <div class="column centerText"><h5>Add to Order</h5></div>
         </div>
-        <div id="productsDisplayProducts"></div>
-        <div>
-            <button id="editProducts">Edit Products</button>
+        <div id="productsDisplayProducts" class="tableBody"></div>
+        <div id="productsDisplayFooters" class="tableFooter">
+            <button id="backToProductFinder">Back to Product Finder</button><button id="addSelectedProductsToCart">Add Selected to Amazon Cart</button>
         </div>`;
-        $('#amazonProductsDisplayContainer').html(str);
+        this.productsDisplayContainer.html(str).fadeIn();
     }
-    initProductsDisplayEvents() {
-        $('#editProducts').click((e) => {
-            this.amazonProductsController.editProducts();
-        });
-      }
-  
-      productFormInsertRowHtml(){
-        let str = `
-        <div class="productsFormRow columns">
-          <div class="column"><a href="${product.url}">${product.name}</a></div>
-          <div class="column">${product.price}</div>
-          <div class="column">${product.stars}</div>
-          <div class="column">${product.starsCount}</div>
-          <div class="column"><input class="productDelete" type="checkbox" /><input type="hidden" id="asin" value="${product.asin}" /></div>
-        </div>
-        `;
-        $('#productsDisplayProducts').append(str);
-      }
 
-    show() {
-        this.createProductsDisplay();
-        $('#amazonProductsDisplayContainer').show();
-      }
-    
-      hide() {
-        $('#amazonProductsDisplayContainer').hide();
-      }
+    // productsDisplayEventsInit - initializes button events for newly created html
+    productsDisplayEventsInit() {
+        this.backToProductsFinderButton.click(e => {
+            this.productsDisplayProducts.html('');
+            this.amazonProductsPresenter.productsDisplayEvent_backToProductsFinderClicked();
+        });
+        this.addSelectedProductsToCart.click(e => {
+            let asins = this.helper_createProductAsinsArray();
+            if (asins.length) {
+                this.amazonProductsPresenter.productsDisplayEvent_addToCartClicked(asins);
+            }
+        });
+    }
+
+    // productsDisplayEventsInit - event from presenter that passes an array of products to this function to render a row for each product
+    productsDisplayEvent_showProducts(products) {
+        products.forEach((product, i) => {
+            let str = `
+            <div class="productRow columns">
+              <div class="column"><img src="${product.imageUrl}" width="200px" /></div>
+              <div class="column is-one-third"><a target="_blank" href="${product.url}">${product.name}</a></div>
+              <div class="column centerText">$${product.price}</div>
+              <div class="column centerText">${product.stars}</div>
+              <div class="column centerText">${product.reviews}</div>
+              <div class="column centerText"><input class="productSelected" type="checkbox" /><input type="hidden" class="asin" value="${product.asin}" /></div>
+            </div>
+            `;
+            this.productsDisplayProducts.append(str).fadeIn(200 + i * 50);
+        });
+    }
+
+    // helper_createProductAsinsArray - loops thru the table and gathers the hidden asin values into an array
+    helper_createProductAsinsArray() {
+        let productAsins = [];
+        let productRows = $('#productsDisplayProducts .productRow').length + 1;
+        for (let i = 1; i < productRows; i++) {
+            if ($('#productsDisplayProducts .productRow:nth-child(' + i + ') .productSelected').is(":checked")) {
+                let asin = $('#productsDisplayProducts .productRow:nth-child(' + i + ') .asin').val();
+                productAsins.push(asin);
+            }
+        }
+        return productAsins;
+    }
+
 }
