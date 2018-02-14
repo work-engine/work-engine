@@ -21,7 +21,6 @@ class AmazonProductsFinderDisplay {
       <a href="#!" class="brand-logo left">Products Finder</a>
     </div>
   </nav>
-      <h2>Products Finder</h2>
       <div id="amazonProductsFinder">
         <div id="productFinderHeaders" class="tableHeader columns">
             <div class="column is-one-third"><h5>Keyword</h5></div>
@@ -65,14 +64,10 @@ class AmazonProductsFinderDisplay {
       <div class="column centerText"><input class="productStarRating centerText" type="text" value="4" /></div>
       
       <div class="column centerText">
-        <input class="productDelete" type="checkbox" id="test6">
-        <i for="test6" class="material-icons">add</i>
-        </input>
+        <input class="productDelete" type="checkbox" checked="checked" id="test6">
+        <label for="test6"/>
       </div>
-
-    
-    </div>
-    `;
+    </div>`;
     $('#productFinderProducts').append(str);
   }
 
