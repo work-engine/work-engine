@@ -31,16 +31,18 @@ historyController.save = (req, res, next) => {
     Promise.all(promises)
      .then(success => {
         console.log("All of the promises have been resolved: ", success);
-        res.locals.products = success; // Not sure if we need this.
-        next();
+        res.locals.saved = success; // Not sure if we need this.
+        return next();
     });
 };
 
-historyController.retrieveHistory = () => {
+historyController.retrieve = (req, res, next) => {
     //todo: Need to get the user ID from cookies
     // const userID;
     History.find({}, (err, findResults) => {
-        return res.json(findResults);
+        if(err) console.log(err);
+        res.locals.history = findResults;
+        return next();
     });
 };
 
