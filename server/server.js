@@ -17,6 +17,7 @@ const io = require('socket.io').listen(server);
 
 // ROUTERS - FOR API 
 const amazonRouter = require('./routers/amazonRouter');
+const historyRouter = require('./routers/historyRouter');
 
 // DATABASE
 const mongoose = require('mongoose');
@@ -25,9 +26,10 @@ mongoose.connect(mongoURI);
 
 // DEFAULT PATH FOR STATIC FILES - SERVES INDEX.HTML
 app.use(express.static(path.join(__dirname, './../client')));
-
+ç
 // ROUTES
 app.use('/api/amazon', amazonRouter);
+app.use('/api/history', historyRouter);
 
 // INTERCEPTS ALL STRAY REQUESTS 
 app.all('*', (req, res, next) => {

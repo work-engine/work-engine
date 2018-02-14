@@ -1,5 +1,7 @@
-class AmazonProductsFinderDisplay {
+// const historyController = require('../../server/controllers/historyController');
 
+class AmazonProductsFinderDisplay {
+ 
   constructor(amazonProductsPresenter) {
     this.amazonProductsPresenter = amazonProductsPresenter;
   }
@@ -34,15 +36,26 @@ class AmazonProductsFinderDisplay {
   }
 
   productFinderEventsInit() {
-    $('#addProduct').click((e) => {
+    $('#addProduct').click(e => {
       this.productFinderMakeRow();
     });
-    $('#findTopProducts').click((e) => {
+    $('#findTopProducts').click(e => {
       const products = this.helper_createProductsArray();
       if (products.length) {
-        this.amazonProductsPresenter.productsFinderDisplayEvent_findTopProducts(products);
+        fetch('/api/history/save', {
+          method: 'POST',
+          body: JSON.stringify(products),
+          headers: new Headers({
+            'Content-Type': 'application/json',
+          }),
+        })
+        .then(res => res.json())
+        .then(data => {
+          console.log(data);
+          // this.amazonProductsPresenter.productsFinderDisplayEvent_findTopProducts(products);
+        });
       }
-    });
+    })
   }
 
   productFinderMakeRow() {
@@ -84,7 +97,4 @@ class AmazonProductsFinderDisplay {
     }
     return products;
   }
-
-
-
 }
