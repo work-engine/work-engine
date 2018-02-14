@@ -1,29 +1,38 @@
 // INITIALIZE PASSPORT SETUP
-const passPortSetup = require("./passport.js");
-const passport = require("passport");
+const passPortSetup = require('./passport.js');
+const passport = require('passport');
 var session = require('express-session');
-// EXPRESS SERVER
 
+// COOKIES
+const cookieSession = require('cookie-session');
+
+// EXPRESS SERVER
 const express = require('express');
 const app = express();
 
-
 // MIDDLEWARE - FOR PARSING OF FORMS AND JSON
 const bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // MIDDLEWARE - FOR PATH
 const path = require('path');
-
 
 // WEB SOCKETS - AND RELATED DEPENDENCIES
 // const http = require('http');
 // const server = http.createServer(app);
 // const io = require('socket.io').listen(server);
 
+// COOKIE SESSION - SET AGE (30 DAYS) AND KEYS
+app.use(
+  cookieSession({
+    maxAge: 30 * 24 * 60 * 60 * 1000,
+    keys: [keys.cookieKey]
+  })
+);
+
 //INITIALIZING PASSPORT AND EXPRESS SESSION
-app.use(session({secret: "-- ENTER CUSTOM SESSION SECRET --"}));
+app.use(session({ secret: '-- ENTER CUSTOM SESSION SECRET --' }));
 
 passport.use(passport.initialize());
 passport.use(passport.session());
@@ -41,7 +50,7 @@ passport.deserializeUser(function(user, done) {
   done(null, user);
 });
 
-// ROUTERS - FOR API 
+// ROUTERS - FOR API
 const amazonRouter = require('./routers/amazonRouter');
 const historyRouter = require('./routers/historyRouter');
 
@@ -65,15 +74,16 @@ app.use(passport.session());
 
 // ROUTES
 app.use('/api/amazon', amazonRouter);
-app.get("/auth/amazon", passport.authenticate("amazon", {scope: ["profile"]}));
-app.get("/auth/amazon/callback", passport.authenticate("amazon"),
-	(req, res) => {
-	
-		res.sendFile(path.join(__dirname, "../client/loggedIn.html")); 
-	}
-);
+app.get('/auth/amazon', passport.authenticate('amazon', { scope: ['profile'] }));
+app.get('/auth/amazon/callback', passport.authenticate('amazon'), (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/loggedIn.html'));
+});
+app.get('/api/logout', (req, res) => {
+  req.logout();
+  res.sendFile(path.join(__dirname, '../client/loggedIn.html'));
+});
 
-// INTERCEPTS ALL STRAY REQUESTS 
+// INTERCEPTS ALL STRAY REQUESTS
 app.all('*', (req, res, next) => {
   console.log('catch all on the root');
   err = new Error('index.js - default catch all route - not found');
