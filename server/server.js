@@ -24,12 +24,12 @@ const path = require('path');
 // const io = require('socket.io').listen(server);
 
 // COOKIE SESSION - SET AGE (30 DAYS) AND KEYS
-app.use(
-  cookieSession({
-    maxAge: 30 * 24 * 60 * 60 * 1000,
-    keys: [keys.cookieKey]
-  })
-);
+// app.use(
+//   cookieSession({
+//     maxAge: 30 * 24 * 60 * 60 * 1000,
+//     keys: [keys.cookieKey]
+//   })
+// );
 
 //INITIALIZING PASSPORT AND EXPRESS SESSION
 app.use(session({ secret: '-- ENTER CUSTOM SESSION SECRET --' }));

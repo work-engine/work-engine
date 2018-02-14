@@ -80,7 +80,6 @@ button {
 .tableHeader {
   margin-bottom: 0;
   padding-bottom: 0;
-  background: #dddddd;
 }
 
 .tableBody {
@@ -97,3 +96,20 @@ button {
   margin-bottom: 0;
   text-align: right;
 }
+
+.index {
+  margin: 25px 0px 25px 0px;
+  display: flex;
+  justify-content: center;
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 50px;
+  color: black;
+  font-weight: bold;
+}
+.indexContainer {
+  margin: 0 auto;
+  width: 30%;
+  border: 1px solid silver;
+  border-radius: 1%;
+}
+

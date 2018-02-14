@@ -16,23 +16,34 @@ class AmazonProductsFinderDisplay {
   productFinderCreate() {
     this.amazonProductsFinderDisplayContainer.html('');
     let str = `
-    <nav>
-    <div class="nav-wrapper">
-      <a href="#!" class="brand-logo left">Products Finder</a>
-    </div>
-  </nav>
+    <div class="row">
+        <div class="col s12 m6">
+          <div class="card blue-grey darken-1">
+            <div class="card-content white-text">
+              <span class="card-title">Work Engine</span>
+              <p>Find the top 5 most popular results for any item you're search for on Amazon.</p>
+            </div>
+            <div class="card-action">
+            </div>
+          </div>
+        </div>
+      </div>
       <div id="amazonProductsFinder">
         <div id="productFinderHeaders" class="tableHeader columns">
-            <div class="column is-one-third"><h5>Keyword</h5></div>
-            <div class="column centerText"><h5>Min Price</h5></div>
-            <div class="column centerText"><h5>Max Price</h5></div>
-            <div class="column centerText"><h5>Stars</h5></div>
-            <div class="column centerText"><h5>Remove</h5></div>
+            <div class="column centerText is-one-third card blue-grey darken-1 white-text"><h5>Keyword</h5></div>
+            <div class="column centerText card blue-grey darken-1 white-text"><h5>Min Price</h5></div>
+            <div class="column centerText card blue-grey darken-1 white-text"><h5>Max Price</h5></div>
+            <div class="column centerText card blue-grey darken-1 white-text"><h5>Stars</h5></div>
+            <div class="column centerText card blue-grey darken-1 white-text"><h5>Remove</h5></div>
         </div>
         <div id="productFinderProducts" class="tableBody"></div>
         <div id="productFinderFooters" class="tableFooter">
-            <button class="waves-effect waves-light btn" id="addProduct">Add Product</button>
-            <button class="waves-effect waves-light btn" id="findTopProducts">Find Top Products</button>
+        <button class="btn waves-effect waves-light blue-grey darken-1" type="submit" name="action" id="addProduct">Add Product
+            <i class="material-icons right">send</i>
+          </button>
+        <button class="btn waves-effect waves-light blue-grey darken-1" type="submit" name="action" id="findTopProducts">Find Top Products
+            <i class="material-icons right">send</i>
+          </button>
         </div>
       </div>`;
     this.amazonProductsFinderDisplayContainer.html(str);
@@ -55,7 +66,7 @@ class AmazonProductsFinderDisplay {
         .then(res => res.json())
         .then(data => {
           console.log('This is the result of history', data);
-          // this.amazonProductsPresenter.productsFinderDisplayEvent_findTopProducts(products);
+          this.amazonProductsPresenter.productsFinderDisplayEvent_findTopProducts(products);
         });
       }
     })
@@ -69,7 +80,7 @@ class AmazonProductsFinderDisplay {
   productFinderInsertFormRowHtml() {
     let str = `
     <div class="productFormRow columns">
-      <div class="column is-one-third"><input class="productKeyword " type="text" value="pens"/></div>
+      <div class="column centerText is-one-third"><input class="productKeyword centerText" type="text" value="pens"/></div>
       <div class="column centerText"><input class="productMinPrice centerText" type="text" value="1" /></div>
       <div class="column centerText"><input class="productMaxPrice centerText" type="text" value="10" /></div>
       <div class="column centerText"><input class="productStarRating centerText" type="text" value="4" /></div>
