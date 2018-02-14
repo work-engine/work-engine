@@ -43,6 +43,7 @@ passport.deserializeUser(function(user, done) {
 
 // ROUTERS - FOR API 
 const amazonRouter = require('./routers/amazonRouter');
+const historyRouter = require('./routers/historyRouter');
 
 // DATABASE
 const mongoose = require('mongoose');
@@ -51,6 +52,10 @@ mongoose.connect(mongoURI);
 
 // DEFAULT PATH FOR STATIC FILES - SERVES INDEX.HTML
 app.use(express.static(path.join(__dirname, './../client')));
+
+// ROUTES
+app.use('/api/amazon', amazonRouter);
+app.use('/api/history', historyRouter);
 
 // SETTING UP PASSPORT
 app.use(passport.initialize());
