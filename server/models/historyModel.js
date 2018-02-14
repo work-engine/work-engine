@@ -9,7 +9,7 @@ const historySchema = new Schema({
   date: { type: Date, default: Date.now },
   minPrice: Number,
   maxPrice: Number,
-  rating: Number,
+  starRating: Number,
 });
 
 module.exports = mongoose.model('history', historySchema);

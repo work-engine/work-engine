@@ -1,6 +1,12 @@
+// INITIALIZE PASSPORT SETUP
+const passPortSetup = require("./passport.js");
+const passport = require("passport");
+var session = require('express-session');
 // EXPRESS SERVER
+
 const express = require('express');
 const app = express();
+
 
 // MIDDLEWARE - FOR PARSING OF FORMS AND JSON
 const bodyParser = require('body-parser');
@@ -10,10 +16,30 @@ app.use(bodyParser.json());
 // MIDDLEWARE - FOR PATH
 const path = require('path');
 
+
 // WEB SOCKETS - AND RELATED DEPENDENCIES
-const http = require('http');
-const server = http.createServer(app);
-const io = require('socket.io').listen(server);
+// const http = require('http');
+// const server = http.createServer(app);
+// const io = require('socket.io').listen(server);
+
+//INITIALIZING PASSPORT AND EXPRESS SESSION
+app.use(session({secret: "-- ENTER CUSTOM SESSION SECRET --"}));
+
+passport.use(passport.initialize());
+passport.use(passport.session());
+
+passport.serializeUser(function(user, done) {
+  // placeholder for custom user serialization
+  // null is for errors
+  done(null, user);
+});
+
+passport.deserializeUser(function(user, done) {
+  // placeholder for custom user deserialization.
+  // maybe you are going to get the user from mongo by id?
+  // null is for errors
+  done(null, user);
+});
 
 // ROUTERS - FOR API 
 const amazonRouter = require('./routers/amazonRouter');
@@ -26,10 +52,26 @@ mongoose.connect(mongoURI);
 
 // DEFAULT PATH FOR STATIC FILES - SERVES INDEX.HTML
 app.use(express.static(path.join(__dirname, './../client')));
-ç
+
 // ROUTES
 app.use('/api/amazon', amazonRouter);
 app.use('/api/history', historyRouter);
+
+// SETTING UP PASSPORT
+app.use(passport.initialize());
+// app.use(express.session());
+app.use(passport.session());
+// app.get("/auth/amazon/callback", passport.authenticate("amazon", {failureRedirect: "/"}),
+
+// ROUTES
+app.use('/api/amazon', amazonRouter);
+app.get("/auth/amazon", passport.authenticate("amazon", {scope: ["profile"]}));
+app.get("/auth/amazon/callback", passport.authenticate("amazon"),
+	(req, res) => {
+	
+		res.sendFile(path.join(__dirname, "../client/loggedIn.html")); 
+	}
+);
 
 // INTERCEPTS ALL STRAY REQUESTS 
 app.all('*', (req, res, next) => {
@@ -48,4 +90,4 @@ app.use((err, req, res, next) => {
 });
 
 // EXPRESS SERVER - LISTEN ON 3000
-server.listen(3000, () => console.log('Server is now listening on port 3000'));
+app.listen(3000, () => console.log('Server is now listening on port 3000'));

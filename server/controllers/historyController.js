@@ -2,12 +2,12 @@ const mongoose = require('mongoose');
 const History = require('../models/historyModel');
 
 const historyController = {};
-const AmazonProductsDisplay = new AmazonProductsDisplay(this);
-console.log('This is the amazon product display: ', AmazonProductsDisplay);
 
 // Saves the keyword searches into the history mongodb
 historyController.save = (req, res, next) => {
-    searches = AmazonProductsDisplay.helper_createProductAsinsArray();
+    searches = req.body;
+    console.log('These are the searches', searches);
+    
     // todo: Need to get the user ID from cookies? lo
     const promises = searches.map(search => {
      return new Promise((resolve, reject) => {
@@ -16,11 +16,11 @@ historyController.save = (req, res, next) => {
         keyword: search.keyword,
         minPrice: search.minPrice,
         maxPrice: search.maxPrice,
-        starRating: search.starRating
+        starRating: search.starRating,
       })
-      .then(product => {
-        console.log("Product has been successfully saved: ", product);
-        resolve(product);
+      .then(history => {
+        console.log("History has been successfully saved: ", history);
+        resolve(history);
       })
       .catch(err => {
         reject(err);
@@ -31,7 +31,7 @@ historyController.save = (req, res, next) => {
     Promise.all(promises)
      .then(success => {
         console.log("All of the promises have been resolved: ", success);
-        res.locals.history = success; // Not sure if we need this.
+        res.locals.products = success; // Not sure if we need this.
         next();
     });
 };
