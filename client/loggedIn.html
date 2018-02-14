@@ -1,37 +1,47 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Work Engine</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.css">
-    <link rel="stylesheet" href="../../css/style.css">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-  </head>
-  <body>
-      <section id="header" class="section">
-          <div id="headerContainer" class="container centerText">
-            <h1>Work Engine</h1>
-          </div>
-      </section>
 
-      <section id="mainSection" class="section">
-          <div id="amazonProductsFinderDisplayContainer" class="container"></div>
-          <div id="amazonProductsDisplayContainer" class="container"></div>
-      </section>
+<head>
+  <title>Work Engine</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.css">
+  <link rel="stylesheet" href="../../css/style.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
 
-      <section id="recDiv">
-          <h2> Recently Searched Items </h2>
-          <div id="recProducts"> </div>
-      </section>
+<body>
+  <section id="header" class="section">
+    <div id="headerContainer" class="container centerText">
+      <h1>Work Engine</h1>
+    </div>
+  </section>
 
-    <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-    <script defer src="https://use.fontawesome.com/releases/v5.0.0/js/all.js"></script>
-    <script src='../../js/AmazonProductsFinderDisplay.js'></script>
-    <script src='../../js/AmazonProductsDisplay.js'></script>
-    <script src='../../js/AmazonProductsModel.js'></script>
-    <script src='../../js/AmazonProductsPresenter.js'></script>
-    <script src="../../js/index.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
-    <script src="../../js/chat.js"></script>
-  </body>
+  <section id="mainSection" class="section">
+    <div id="amazonProductsFinderDisplayContainer" class="container"></div>
+    <div id="amazonProductsDisplayContainer" class="container"></div>
+    <div id="searchHistoryDisplayContainer" class="container">Search History</div>
+  </section>
+
+  <section id="recDiv">
+    <h2> Recently Searched Items </h2>
+    <div id="recProducts"> </div>
+  </section>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+  <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
+  <script defer src="https://use.fontawesome.com/releases/v5.0.0/js/all.js"></script>
+  <script src='../../js/AmazonProductsFinderDisplay.js'></script>
+  <script src='../../js/AmazonProductsDisplay.js'></script>
+  <script src='../../js/AmazonProductsModel.js'></script>
+  <script src='../../js/AmazonProductsPresenter.js'></script>
+  <script src="../../js/index.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+  <script src="../../js/chat.js"></script>
+</body>
+
 </html>
+
