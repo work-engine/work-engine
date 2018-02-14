@@ -49,16 +49,18 @@ class AmazonProductsFinderDisplay {
           method: 'POST',
           body: JSON.stringify(products),
           headers: new Headers({
-            'Content-Type': 'application/json',
-          }),
+            'Content-Type': 'application/json'
+          })
         })
-        .then(res => res.json())
-        .then(data => {
-          console.log('This is the result of history', data);
-          // this.amazonProductsPresenter.productsFinderDisplayEvent_findTopProducts(products);
-        });
+          .then(res => res.json())
+          .then(data => {
+            console.log('This is the result of history', data);
+            this.amazonProductsPresenter.productsFinderDisplayEvent_findTopProducts(
+              products
+            );
+          });
       }
-    })
+    });
   }
 
   productFinderMakeRow() {
