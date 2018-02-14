@@ -5,16 +5,17 @@ class AmazonProductsFinderDisplay {
 
   init() {
     this.amazonProductsFinderDisplayContainer = $(
-      '#amazonProductsFinderDisplayContainer'
+      "#amazonProductsFinderDisplayContainer"
     );
+    this.searchHistoryDisplayContainer = $("#searchHistoryDisplayContainer");
     this.productFinderCreate();
 
-    this.addProductButton = $('#addProduct');
+    this.addProductButton = $("#addProduct");
     this.productFinderEventsInit();
   }
 
   productFinderCreate() {
-    this.amazonProductsFinderDisplayContainer.html('');
+    this.amazonProductsFinderDisplayContainer.html("");
     let str = `
     <nav>
     <div class="nav-wrapper">
@@ -38,15 +39,33 @@ class AmazonProductsFinderDisplay {
     this.amazonProductsFinderDisplayContainer.html(str);
   }
 
+  retrieveSearchHistory() {
+    // console.log("executing retrieveSearchHistory");
+     fetch('/api/history/retrieve', {
+       method: "GET",
+       headers: new Headers({
+         "Content-Type": "application/json"
+       })
+     })
+    .then(res => res.json())
+    .then(returnedResult => {
+      console.log("This is the returned history ", returnedResult);
+      this.displaySearchHistory(returnedResult);
+    });
+  }
+
   productFinderEventsInit() {
-    $('#addProduct').click(e => {
+  
+    this.retrieveSearchHistory();
+    $("#addProduct").click(e => {
       this.productFinderMakeRow();
     });
-    $('#findTopProducts').click(e => {
+    $("#findTopProducts").click(e => {
       const products = this.helper_createProductsArray();
       if (products.length) {
-        fetch('/api/history/save', {
-          method: 'POST',
+        // invocation of history api to save search history to the database -JP
+        fetch("/api/history/save", {
+          method: "POST",
           body: JSON.stringify(products),
           headers: new Headers({
             'Content-Type': 'application/json'
@@ -81,11 +100,11 @@ class AmazonProductsFinderDisplay {
         <label for="test6"/>
       </div>
     </div>`;
-    $('#productFinderProducts').append(str);
+    $("#productFinderProducts").append(str);
   }
 
   productFinderInitFormRowEvents() {
-    $('.productFormRow .productDelete').click(e => {
+    $(".productFormRow .productDelete").click(e => {
       $(e.target)
         .parent()
         .parent()
@@ -96,24 +115,50 @@ class AmazonProductsFinderDisplay {
   // helper_createProductAsinsArray - loops thru the table and gathers the hidden asin values into an array
   helper_createProductsArray() {
     let products = [];
-    let productRows = $('#productFinderProducts .productFormRow').length;
+    let productRows = $("#productFinderProducts .productFormRow").length;
     for (let i = 1; i <= productRows; i++) {
       let product = {};
       product.keyword = $(
-        '#productFinderProducts .productFormRow:nth-child(' + i + ') .productKeyword'
+        "#productFinderProducts .productFormRow:nth-child(" +
+          i +
+          ") .productKeyword"
       ).val();
       product.minPrice = $(
-        '#productFinderProducts .productFormRow:nth-child(' + i + ') .productMinPrice'
+        "#productFinderProducts .productFormRow:nth-child(" +
+          i +
+          ") .productMinPrice"
       ).val();
       product.maxPrice = $(
-        '#productFinderProducts .productFormRow:nth-child(' + i + ') .productMaxPrice'
+        "#productFinderProducts .productFormRow:nth-child(" +
+          i +
+          ") .productMaxPrice"
       ).val();
       product.starRating = $(
-        '#productFinderProducts .productFormRow:nth-child(' + i + ') .productStarRating'
+        "#productFinderProducts .productFormRow:nth-child(" +
+          i +
+          ") .productStarRating"
       ).val();
       // console.log(`product: ${product}`);
       products.push(product);
     }
     return products;
+  }
+
+  // Display the search history -JP (02/14/18 10:56AM)
+  // productsDisplayEventsInit - event from presenter that passes an array of products to this function to render a row for each product
+  displaySearchHistory(searchHistories) {
+    console.log("displaySearchHistory: ", searchHistories);
+    searchHistories.forEach((search, i) => {
+      let str = `
+            <div id=${search._id} class="search-history">
+              <div class="column centerText">${search.keyword}</div>
+              <div class="column centerText">${search.minPrice}</div>
+              <div class="column centerText">${search.maxPrice}</div>
+              <div class="column centerText">${search.starRating}</div>
+              <div class="column centerText">${search.date}</div>
+            </div>
+            `;
+      this.searchHistoryDisplayContainer.append(str).fadeIn(200 + i * 50);
+    });
   }
 }

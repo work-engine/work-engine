@@ -97,3 +97,12 @@ button {
   margin-bottom: 0;
   text-align: right;
 }
+
+#searchHistoryDisplayContainer {
+  display: flex;
+  
+  margin-top: 50px;
+  margin-bottom: 50px;
+  border-top: 1px solid black;
+
+}
