@@ -64,3 +64,11 @@ button {
   margin-bottom: 0;
   text-align: right;
 }
+
+#recDiv h2{
+  text-align: center;
+}
+
+#recDiv #recProducts{
+  margin: auto;
+}
