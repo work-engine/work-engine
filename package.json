@@ -13,7 +13,11 @@
     "body-parser": "^1.14.2",
     "cheerio": "^1.0.0-rc.2",
     "express": "^4.13.4",
+    "materialize-css": "^0.100.2",
     "mongoose": "^5.0.4",
+    "express-session": "^1.15.6",
+    "passport": "^0.4.0",
+    "passport-amazon": "^1.0.0",
     "request": "^2.83.0",
     "socket.io": "^2.0.4"
   }
