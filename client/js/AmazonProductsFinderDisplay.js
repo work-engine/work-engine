@@ -71,13 +71,12 @@ class AmazonProductsFinderDisplay {
             'Content-Type': 'application/json'
           })
         })
-          .then(res => res.json())
+          // .then(res => res.json())
           .then(data => {
             console.log('This is the result of history', data);
-            this.amazonProductsPresenter.productsFinderDisplayEvent_findTopProducts(
-              products
-            );
-          });
+            this.amazonProductsPresenter.productsFinderDisplayEvent_findTopProducts(products);
+          })
+          .catch(err => console.log(err))
       }
     });
   }
