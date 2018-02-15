@@ -11,24 +11,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
-<body>
-  <a href="/api/logout">
-    <button class="btn waves-effect waves-light" type="submit" name="action">
-      Log Out
-      <i class="material-icons right">exit_to_app</i>
-    </button>
-  </a>
-
-  <section id="header" class="section">
-    <div id="headerContainer" class="container centerText">
-      <h1>Work Engine</h1>
-    </div>
-  </section>
-
+<body class="blue-grey lighten-5">
   <section id="mainSection" class="section">
-    <div id="amazonProductsFinderDisplayContainer" class="container"></div>
-    <div id="amazonProductsDisplayContainer" class="container"></div>
-    <div id="searchHistoryDisplayContainer" class="container">Search History</div>
+    <div id="amazonProductsFinderDisplayContainer"></div>
+    <div id="amazonProductsDisplayContainer"></div>
+    <div>
+      <div id="searchHistoryTitle" class="centerText container card blue-grey darken-1 white-text">Search History</div>
+      <div id="searchHistoryDisplayContainer" class="container card blue-grey darken-1 white-text"></div>
+    </div>
   </section>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
@@ -40,6 +30,7 @@
   <script src='../../js/AmazonProductsModel.js'></script>
   <script src='../../js/AmazonProductsPresenter.js'></script>
   <script src="../../js/index.js"></script>
+
 </body>
 
 </html>

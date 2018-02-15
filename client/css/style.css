@@ -80,7 +80,6 @@ button {
 .tableHeader {
   margin-bottom: 0;
   padding-bottom: 0;
-  background: #dddddd;
 }
 
 .tableBody {
@@ -98,16 +97,30 @@ button {
   text-align: right;
 }
 
-#searchHistoryDisplayContainer {
+.index {
+  margin: 25px 0px 25px 0px;
   display: flex;
-  flex-direction: column;
-  margin-top: 50px;
-  margin-bottom: 50px;
-  border-top: 1px solid black;
-  padding-top: 10px;
+  justify-content: center;
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 50px;
+  color: black;
+  font-weight: bold;
+}
+.indexContainer {
+  margin: 0 auto;
+  width: 30%;
+  border: 1px solid silver;
+  border-radius: 1%;
 }
 
-.search-history {
-  display: flex;
+#searchHistoryTitle {
+  margin-top: 150px;
+  font-size: 25px;
+}
 
+#searchHistoryDisplayContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  font-size: 20px;
 }
