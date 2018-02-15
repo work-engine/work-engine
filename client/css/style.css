@@ -138,6 +138,12 @@ button {
   font-size: 25px;
 }
 
+}
+
+.productSelected {
+  z-index: 1000;
+  border: 1px solid black;
+}
 #searchHistoryDisplayContainer {
   display: flex;
   flex-wrap: wrap;
