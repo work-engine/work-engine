@@ -18,8 +18,7 @@ historyController.save = (req, res, next) => {
         maxPrice: search.maxPrice,
         starRating: search.starRating,
       })
-      .then(history => {
-        console.log("History has been successfully saved: ", history);
+      .then(history => { 
         resolve(history);
       })
       .catch(err => {
@@ -30,15 +29,16 @@ historyController.save = (req, res, next) => {
 
     Promise.all(promises)
      .then(success => {
-        console.log("All of the promises have been resolved: ", success);
-        res.locals.saved = success; // Not sure if we need this.
-        return next();
-    });
+        res.locals.products = success;
+       console.log('This is the result of success', success);
+       next();
+     });
 };
 
 historyController.retrieve = (req, res, next) => {
     //todo: Need to get the user ID from cookies
-    // const userID;
+    console.log('Session Session: ========================>', req.cookies);
+    
     History.find({}, (err, findResults) => {
         if(err) console.log(err);
         res.locals.history = findResults;
