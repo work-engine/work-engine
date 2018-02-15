@@ -111,3 +111,8 @@ button {
   display: flex;
 
 }
+
+.productSelected {
+  z-index: 1000;
+  border: 1px solid black;
+}

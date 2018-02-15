@@ -6,13 +6,14 @@ const historyController = {};
 // Saves the keyword searches into the history mongodb
 historyController.save = (req, res, next) => {
     searches = req.body;
-    console.log('These are the searches', searches);
+    console.log("This is the request cookies", req.cookies);
     
     // todo: Need to get the user ID from cookies? lo
     const promises = searches.map(search => {
      return new Promise((resolve, reject) => {
       History.create({
         // userID: string,
+        amazonID: req.cookies.amazonID,
         keyword: search.keyword,
         minPrice: search.minPrice,
         maxPrice: search.maxPrice,
@@ -30,7 +31,6 @@ historyController.save = (req, res, next) => {
     Promise.all(promises)
      .then(success => {
         res.locals.products = success;
-       console.log('This is the result of success', success);
        next();
      });
 };
@@ -39,7 +39,7 @@ historyController.retrieve = (req, res, next) => {
     //todo: Need to get the user ID from cookies
     console.log('Session Session: ========================>', req.cookies);
     
-    History.find({}, (err, findResults) => {
+    History.find({ amazonID: req.cookies.amazonID }, (err, findResults) => {
         if(err) console.log(err);
         res.locals.history = findResults;
         return next();

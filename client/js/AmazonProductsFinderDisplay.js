@@ -44,12 +44,13 @@ class AmazonProductsFinderDisplay {
      fetch('/api/history/retrieve', {
        method: "GET",
        headers: new Headers({
-         "Content-Type": "application/json"
-       })
+         "Content-Type": "application/json",
+       }),
+       credentials: 'include'
      })
     .then(res => res.json())
     .then(returnedResult => {
-      console.log("This is the returned history ", returnedResult);
+      // console.log("This is the returned history ", returnedResult);
       this.displaySearchHistory(returnedResult);
     });
   }
@@ -68,15 +69,16 @@ class AmazonProductsFinderDisplay {
           method: "POST",
           body: JSON.stringify(products),
           headers: new Headers({
-            'Content-Type': 'application/json'
-          })
+            "Content-Type": "application/json"
+          }),
+          credentials: "include"
         })
           // .then(res => res.json())
           .then(data => {
-            console.log('This is the result of history', data);
+            console.log("This is the result of history", data);
             this.amazonProductsPresenter.productsFinderDisplayEvent_findTopProducts(products);
           })
-          .catch(err => console.log(err))
+          .catch(err => console.log(err));
       }
     });
   }
@@ -146,7 +148,6 @@ class AmazonProductsFinderDisplay {
   // Display the search history -JP (02/14/18 10:56AM)
   // productsDisplayEventsInit - event from presenter that passes an array of products to this function to render a row for each product
   displaySearchHistory(searchHistories) {
-    console.log("displaySearchHistory: ", searchHistories);
     searchHistories.forEach((search, i) => {
       let str = `
             <div id=${search._id} class="search-history">
