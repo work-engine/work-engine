@@ -5,16 +5,17 @@ class AmazonProductsFinderDisplay {
 
   init() {
     this.amazonProductsFinderDisplayContainer = $(
-      '#amazonProductsFinderDisplayContainer'
+      "#amazonProductsFinderDisplayContainer"
     );
+    this.searchHistoryDisplayContainer = $("#searchHistoryDisplayContainer");
     this.productFinderCreate();
 
-    this.addProductButton = $('#addProduct');
+    this.addProductButton = $("#addProduct");
     this.productFinderEventsInit();
   }
 
   productFinderCreate() {
-    this.amazonProductsFinderDisplayContainer.html('');
+    this.amazonProductsFinderDisplayContainer.html("");
     let str = `
     <div class="row">
         <div class="col s12 m6">
@@ -38,38 +39,65 @@ class AmazonProductsFinderDisplay {
         </div>
         <div id="productFinderProducts" class="tableBody"></div>
         <div id="productFinderFooters" class="tableFooter">
-        <button class="btn waves-effect waves-light blue-grey darken-1" type="submit" name="action" id="addProduct">Add Product
+        <button class="btn waves-effect waves-light blue-grey darken-1" id="addProduct">Add Product
             <i class="material-icons right">send</i>
           </button>
-        <button class="btn waves-effect waves-light blue-grey darken-1" type="submit" name="action" id="findTopProducts">Find Top Products
+        <button class="btn waves-effect waves-light blue-grey darken-1" id="findTopProducts">Find Top Products
             <i class="material-icons right">send</i>
           </button>
+        <a href="/api/logout">
+          <button class="btn waves-effect waves-light blue-grey darken-1" type="submit" name="action">
+            Log Out
+            <i class="material-icons right">exit_to_app</i>
+          </button>
+        </a>
+
         </div>
       </div>`;
     this.amazonProductsFinderDisplayContainer.html(str);
   }
 
+  retrieveSearchHistory() {
+    // console.log("executing retrieveSearchHistory");
+     fetch('/api/history/retrieve', {
+       method: "GET",
+       headers: new Headers({
+         "Content-Type": "application/json"
+       })
+     })
+    .then(res => res.json())
+    .then(returnedResult => {
+      console.log("This is the returned history ", returnedResult);
+      this.displaySearchHistory(returnedResult);
+    });
+  }
+
   productFinderEventsInit() {
-    $('#addProduct').click(e => {
+  
+    this.retrieveSearchHistory();
+    $("#addProduct").click(e => {
       this.productFinderMakeRow();
     });
-    $('#findTopProducts').click(e => {
+    $("#findTopProducts").click(e => {
       const products = this.helper_createProductsArray();
       if (products.length) {
-        fetch('/api/history/save', {
-          method: 'POST',
+        // invocation of history api to save search history to the database -JP
+        fetch("/api/history/save", {
+          method: "POST",
           body: JSON.stringify(products),
           headers: new Headers({
-            'Content-Type': 'application/json',
-          }),
+            'Content-Type': 'application/json'
+          })
         })
-        .then(res => res.json())
-        .then(data => {
-          console.log('This is the result of history', data);
-          this.amazonProductsPresenter.productsFinderDisplayEvent_findTopProducts(products);
-        });
+          // .then(res => res.json())
+          .then(data => {
+            console.log('This is the result of history', data);
+            this.amazonProductsPresenter.productsFinderDisplayEvent_findTopProducts(
+              products
+            );
+          });
       }
-    })
+    });
   }
 
   productFinderMakeRow() {
@@ -79,22 +107,26 @@ class AmazonProductsFinderDisplay {
 
   productFinderInsertFormRowHtml() {
     let str = `
-    <div class="productFormRow columns">
-      <div class="column centerText is-one-third"><input class="productKeyword centerText" type="text" value="pens"/></div>
-      <div class="column centerText"><input class="productMinPrice centerText" type="text" value="1" /></div>
-      <div class="column centerText"><input class="productMaxPrice centerText" type="text" value="10" /></div>
-      <div class="column centerText"><input class="productStarRating centerText" type="text" value="4" /></div>
+    <div class="columns productFormRow">
+      <div class="column centerText is-one-third"><input class="productKeyword centerText card blue-grey white-text" value="Pens"/></div>
+      <div class="column centerText"><input class="productMinPrice centerText card blue-grey white-text" type="text" value="1" /></div>
+      <div class="column centerText"><input class="productMaxPrice centerText card blue-grey white-text" type="text" value="10" /></div>
+      <div class="column centerText"><input class="productStarRating centerText card blue-grey white-text" type="text" value="4" /></div>
       
       <div class="column centerText">
         <input class="productDelete" type="checkbox" checked="checked" id="test6">
+          <button class=" productDelete btn waves-effect waves-light card blue-grey white-text">
+            <i class="material-icons center">block</i>
+          </button></input>
         <label for="test6"/>
       </div>
     </div>`;
-    $('#productFinderProducts').append(str);
+    $("#productFinderProducts").append(str);
   }
+  
 
   productFinderInitFormRowEvents() {
-    $('.productFormRow .productDelete').click(e => {
+    $(".productFormRow .productDelete").click(e => {
       $(e.target)
         .parent()
         .parent()
@@ -105,24 +137,52 @@ class AmazonProductsFinderDisplay {
   // helper_createProductAsinsArray - loops thru the table and gathers the hidden asin values into an array
   helper_createProductsArray() {
     let products = [];
-    let productRows = $('#productFinderProducts .productFormRow').length;
+    let productRows = $("#productFinderProducts .productFormRow").length;
     for (let i = 1; i <= productRows; i++) {
       let product = {};
       product.keyword = $(
-        '#productFinderProducts .productFormRow:nth-child(' + i + ') .productKeyword'
+        "#productFinderProducts .productFormRow:nth-child(" +
+          i +
+          ") .productKeyword"
       ).val();
       product.minPrice = $(
-        '#productFinderProducts .productFormRow:nth-child(' + i + ') .productMinPrice'
+        "#productFinderProducts .productFormRow:nth-child(" +
+          i +
+          ") .productMinPrice"
       ).val();
       product.maxPrice = $(
-        '#productFinderProducts .productFormRow:nth-child(' + i + ') .productMaxPrice'
+        "#productFinderProducts .productFormRow:nth-child(" +
+          i +
+          ") .productMaxPrice"
       ).val();
       product.starRating = $(
-        '#productFinderProducts .productFormRow:nth-child(' + i + ') .productStarRating'
+        "#productFinderProducts .productFormRow:nth-child(" +
+          i +
+          ") .productStarRating"
       ).val();
       // console.log(`product: ${product}`);
       products.push(product);
     }
     return products;
+  }
+
+  // Display the search history -JP (02/14/18 10:56AM)
+  // productsDisplayEventsInit - event from presenter that passes an array of products to this function to render a row for each product
+  displaySearchHistory(searchHistories) {
+    console.log("displaySearchHistory: ", searchHistories);
+    searchHistories.forEach((search, i) => {
+      let str = `
+            <div id=${search._id} class="search-history card blue-grey darken-1 white-text">
+              <div class="column centerText">${search.keyword}</div>
+              <div class="column centerText">${search.minPrice}</div>
+              <div class="column centerText">${search.maxPrice}</div>
+              <div class="column centerText">${search.starRating}</div>
+              <div class="column centerText">${search.date}</div>
+            </div>
+            `;
+
+            
+      this.searchHistoryDisplayContainer.append(str).fadeIn(200 + i * 50);
+    });
   }
 }
