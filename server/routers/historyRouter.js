@@ -5,7 +5,7 @@ const router = express.Router();
 const historyController = require('../controllers/historyController');
 
 router.post('/save', historyController.save, (req, res, next) => {
-    console.log('History has been passed to historyRouter', req.locals.saved);
+    console.log('next middleware', req.locals.saved);
     return res.json(req.locals.saved);
 });
 
