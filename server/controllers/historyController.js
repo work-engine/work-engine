@@ -46,4 +46,18 @@ historyController.retrieve = (req, res, next) => {
     });
 };
 
+// historyController.retrieveMostRecentSearch = () => {
+//   // RETRIEVE MOST RECENT SEARCH ITEMS IN HISTORY
+//   let lastObj; 
+//   History.find({}, function(err, result){
+//     //let sliced = JSON.parse(result); 
+//     lastObj = result.pop();
+//     return lastObj; 
+//     //console.log("LASTOBJ: ", lastObj);
+//     // let slicedRes = [];
+//     // slicedRes.push(sliced[0], sliced[1]); 
+//     // console.log("DB TESTING TESTING TESTING!!!!!!", lastObj);
+//   });
+// }
+
 module.exports = historyController;
