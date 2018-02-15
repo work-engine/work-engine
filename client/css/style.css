@@ -97,6 +97,25 @@ button {
   text-align: right;
 }
 
+
+
+#recDiv h2{
+  text-align: center;
+}
+
+#recDiv #recProducts{
+  margin: auto;
+  overflow-y: scroll;
+  height: 200px;
+}
+
+#searchHistoryDisplayContainer {
+  display: flex;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  border-top: 1px solid black;
+}
+
 .index {
   margin: 25px 0px 25px 0px;
   display: flex;
@@ -112,6 +131,7 @@ button {
   border: 1px solid silver;
   border-radius: 1%;
 }
+
 
 #searchHistoryTitle {
   margin-top: 150px;

@@ -28,7 +28,7 @@ const path = require('path');
 // WEB SOCKETS - AND RELATED DEPENDENCIES
 // const http = require('http');
 // const server = http.createServer(app);
-// const io = require('socket.io').listen(server);
+let socket = require('socket.io');
 
 //INITIALIZING PASSPORT AND EXPRESS SESSION
 // app.use(session({ secret: '-- ENTER CUSTOM SESSION SECRET --' }));
@@ -122,4 +122,21 @@ app.use((err, req, res, next) => {
 });
 
 // EXPRESS SERVER - LISTEN ON 3000
-app.listen(3000, () => console.log('Server is now listening on port 3000'));
+let server = app.listen(3000, () => console.log('Server is now listening on port 3000'));
+
+
+//IMPORT HISTORY MODEL
+let History = require("./models/historyModel.js");
+// TURN ON SOCKET AND START LISTENING
+let io = new socket(server); 
+io.on("connection", function(socket){
+  console.log("Got connectionfrom socket id: ", socket.id); 
+  // EMIT TOP RECOMMENDED PRODCUTS TO ALL CLIENT SOCKETS
+  let interval = setInterval( ()=>{
+      History.find({}, function(err, result){
+        lastObj = result.pop();
+        io.sockets.emit("recProducts", lastObj); 
+        console.log("LASTOBJ: ", lastObj);
+      });
+  },20000);
+});
