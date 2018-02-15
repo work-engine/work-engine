@@ -105,6 +105,8 @@ button {
 
 #recDiv #recProducts{
   margin: auto;
+  overflow-y: scroll;
+  height: 200px;
 }
 
 #searchHistoryDisplayContainer {
