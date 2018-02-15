@@ -1,10 +1,11 @@
 // INITIALIZE PASSPORT SETUP
 const passPortSetup = require('./passport.js');
 const passport = require('passport');
-// var session = require('express-session');
+// const session = require('express-session');
 
 // COOKIES
 const cookieSession = require('cookie-session');
+const cookieParser = require('cookie-parser');
 const Keys = require('../config/keys');
 const User = require('./models/userModel.js');
 
@@ -16,6 +17,10 @@ const app = express();
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(cookieParser());
+
+
+// app.use(session());
 
 // MIDDLEWARE - FOR PATH
 const path = require('path');
@@ -43,7 +48,11 @@ passport.deserializeUser(function(id, done) {
   // placeholder for custom user deserialization.
   // maybe you are going to get the user from mongo by id?
   // null is for errors
+  console.log("This is the id result", id);
+  
   User.findById(id).then(user => {
+    console.log("This is the user", user);
+    
     done(null, user);
   });
 });
@@ -51,11 +60,13 @@ passport.deserializeUser(function(id, done) {
 // COOKIE SESSION // ENCRYPTS COOKIE - SET NAME, AGE (24 HOURS), AND KEY
 app.use(
   cookieSession({
-    name: "I'M A COOKIE",
+    name: "amazonID",
     maxAge: 24 * 60 * 60 * 1000,
     keys: [Keys.cookieKey]
   })
 );
+
+// app.use(cookieParser(Keys.cookieKey));
 
 // ROUTERS - FOR API
 const amazonRouter = require('./routers/amazonRouter');
@@ -83,6 +94,7 @@ app.use(passport.session());
 app.use('/api/amazon', amazonRouter);
 app.get('/auth/amazon', passport.authenticate('amazon', { scope: ['profile'] }));
 app.get('/auth/amazon/callback', passport.authenticate('amazon'), (req, res) => {
+  res.cookie("userid", req.user.amazonID, { maxAge: 2592000000 });
   res.sendFile(path.join(__dirname, '../client/loggedIn.html'));
 });
 app.get('/api/logout', (req, res) => {
