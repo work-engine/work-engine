@@ -12,6 +12,10 @@ const productSchema = new Schema({
   price: String,
   stars: String,
   reviews: String,
+  date: {
+  	type: Date,
+  	default: Date.now
+  }
 });
 
 module.exports = mongoose.model('product', productSchema);

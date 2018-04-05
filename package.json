@@ -10,11 +10,29 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "babel-register": "^6.26.0",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.14.2",
     "cheerio": "^1.0.0-rc.2",
+    "cookie-parser": "^1.4.3",
+    "cookie-session": "^2.0.0-beta.3",
     "express": "^4.13.4",
+    "express-session": "^1.15.6",
+    "materialize-css": "^0.100.2",
     "mongoose": "^5.0.4",
+    "passport": "^0.4.0",
+    "passport-amazon": "^1.0.0",
+    "passport-cookie": "^1.0.4",
     "request": "^2.83.0",
+    "socket-io": "^1.0.0",
     "socket.io": "^2.0.4"
+  },
+  "devDependencies": {
+    "babel": "^6.23.0",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "webpack": "^3.11.0"
   }
 }
