@@ -1,6 +1,11 @@
-class AmazonProductsDisplay {
+
+const component = require('./Component');
+
+
+class AmazonProductsDisplay extends Component{
 
     constructor(amazonProductsPresenter) {
+        super("AmazonProductsDisplay");
         this.amazonProductsPresenter = amazonProductsPresenter;
     }
 

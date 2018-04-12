@@ -1,7 +1,8 @@
-class AmazonProductsPresenter {
+class AmazonProductsPresenter extends Presenter {
 
     constructor() {
-
+        super();
+        this.init();
     }
 
     init() {

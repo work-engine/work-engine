@@ -21,8 +21,8 @@ router.post('/go/local/',
   amazonController.getProductsHtmlLocal,
   dbController.save,
   (req, res) => {
-    res.status(200).json(res.locals.products);
     console.log(`/go/local/ - about to return: ${res.locals.products}`);
+    res.status(200).json(res.locals.products);
   }
 );
 
