@@ -52,8 +52,10 @@ amazonController.createProductsObjFromHtml = ($) => {
             let name = $('#result_' + i + ' h2').text();
             let asin = $('#result_' + i).attr('data-asin');
             let url = $('#result_' + i + ' h2').parent().attr('href');
-            let urlStart = url.indexOf('www.amazon.com');
-            url = 'http://' + unescape(url.slice(urlStart));
+            if(url){
+                let urlStart = url.indexOf('www.amazon.com');
+                url = 'http://' + unescape(url.slice(urlStart));
+            }
             let imageUrl = $('#result_' + i + ' .s-access-image').attr('src');
             let manufacturer = $('result_' + i + ' a-size-small.a-color-secondary').last().text();
             let price = $('#result_' + i + ' .sx-price-whole').last().text();

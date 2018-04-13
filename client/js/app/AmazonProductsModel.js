@@ -1,13 +1,14 @@
-class AmazonProductsModel {
+class AmazonProductsModel extends Model {
 
     constructor(amazonProductsPresenter) {
+        super();
         this.amazonProductsPresenter = amazonProductsPresenter;
         this.products = [];
     }
 
     // Called from amazonProductsPresenter
     findTopProducts(products) {
-        const productsUrls = this.helper_createProductUrls(products);
+        const productsUrls = this.createProductUrls(products);
         productsUrls.forEach(productUrl => {
             this.sendProductUrlToServer(productUrl);
         });
@@ -18,7 +19,7 @@ class AmazonProductsModel {
         let body = JSON.stringify({ url: productsUrl });
 
         console.log(`sendProductUrlToServer - ${body}`);
-        let apiUrl = '/api/amazon/go';
+        let apiUrl = '/api/amazon/go/local';
         //*//
         fetch(apiUrl, {
             headers: {
@@ -38,7 +39,7 @@ class AmazonProductsModel {
         //*/
     }
 
-    helper_createProductUrls(products) {
+    createProductUrls(products) {
         // loop thru all the product rows
         // make a array of URL to send to the server
         let productsUrls = [];
@@ -76,8 +77,8 @@ class AmazonProductsModel {
         return productsUrls;
     }
 
-    // helper_createAddToCartUrl - generates an instant add to cart URL based on ASIN from scraped products
-    helper_createAddToCartUrl(asins) {
+    // createAddToCartUrl - generates an instant add to cart URL based on ASIN from scraped products
+    createAddToCartUrl(asins) {
         const baseUrl = `https://www.amazon.com/gp/aws/cart/add.html?`;
         // Chris's AWS Access Key
         let awsKeys = `AWSAccessKeyId=AKIAJNLAGUG5AQBDB4YA`

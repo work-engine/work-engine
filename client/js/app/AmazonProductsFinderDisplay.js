@@ -1,6 +1,8 @@
-class AmazonProductsFinderDisplay {
+//const Ereact = require('./Component');
+class AmazonProductsFinderDisplay extends Component {
 
   constructor(amazonProductsPresenter) {
+    super();
     this.amazonProductsPresenter = amazonProductsPresenter;
   }
 
@@ -38,7 +40,7 @@ class AmazonProductsFinderDisplay {
       this.productFinderMakeRow();
     });
     $('#findTopProducts').click((e) => {
-      const products = this.helper_createProductsArray();
+      const products = this.createProductsArray();
       if (products.length) {
         this.amazonProductsPresenter.productsFinderDisplayEvent_findTopProducts(products);
       }
@@ -70,7 +72,7 @@ class AmazonProductsFinderDisplay {
   }
 
   // helper_createProductAsinsArray - loops thru the table and gathers the hidden asin values into an array
-  helper_createProductsArray() {
+  createProductsArray() {
     let products = [];
     let productRows = $('#productFinderProducts .productFormRow').length;
     for (let i = 1; i <= productRows; i++) {
